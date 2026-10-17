@@ -1,0 +1,26 @@
+const express = require('express');
+const cors = require('cors');
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+app.post('/api/lokasi', (req, res) => {
+  const koordinat = req.body;
+  
+  console.log("===============================");
+  console.log("Dapat lokasi baru nih:");
+  console.log("Latitude :", koordinat.lat);
+  console.log("Longitude:", koordinat.lng);
+  
+  // Ini bagian buat bikin link Google Maps
+  const linkMaps = `https://www.google.com/maps?q=${koordinat.lat},${koordinat.lng}`;
+  console.log("Cek di Maps:", linkMaps);
+  console.log("===============================");
+
+  res.send('Koordinat aman, udah masuk ke server!');
+});
+
+app.listen(3000, () => {
+  console.log('Server udah nyala di http://localhost:3000');
+});
