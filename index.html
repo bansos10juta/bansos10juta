@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lacak Koordinat</title>
+  <title>Lacak Koordinat by handyazka</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -51,6 +51,7 @@
       margin-top: 25px;
       font-size: 12px;
       color: #adb5bd;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -63,6 +64,10 @@
   </div>
 
   <script>
+    // PERHATIKAN BARIS DI BAWAH INI!
+    // Nanti ganti tulisan LINK_LOCALTUNNEL_KAMU_DISINI dengan link dari Localtunnel
+    const LINK_SERVER = "LINK_LOCALTUNNEL_KAMU_DISINI";
+
     function kirimLokasi() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
@@ -71,14 +76,14 @@
             lng: position.coords.longitude
           };
 
-          fetch('http://localhost:3000/api/lokasi', {
+          fetch(LINK_SERVER + '/api/lokasi', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dataLokasi)
           })
           .then(response => response.text())
           .then(hasil => alert("Server bilang: " + hasil))
-          .catch(error => alert('Gagal kirim, pastikan server nyala.'));
+          .catch(error => alert('Gagal kirim, pastikan link server sudah benar.'));
 
         }, error => {
           alert('Gagal dapet lokasi. Pastiin GPS nyala dan diizinin.');
